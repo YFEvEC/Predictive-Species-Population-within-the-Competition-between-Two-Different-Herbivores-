@@ -1,0 +1,341 @@
+\documentclass[11pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{physics}
+\usepackage{mathdots}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage[T1]{fontenc}
+\usepackage[numbered,framed]{matlab-prettifier}
+\usepackage{MnSymbol,wasysym}
+\usepackage{hyperref}
+\usepackage{filecontents}
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\def\firstcircle{(90:4cm) circle (4.5cm)}
+\def\secondcircle{(200:3cm) circle (4.5cm)}
+\def\thirdcircle{(340:3cm) circle (4.5cm)}
+
+\newcommand{\N}{\mathbb{N}}
+% Bold for vectors and matrices
+\newcommand\vect[1]{\mathbf{#1}}
+\newcommand{\Z}{\mathbb{Z}}
+\renewcommand{\theenumi}{\alph{enumi}}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+ 
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][\large Exercise]{\begin{trivlist}
+\item[\centering \Large \hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{reflection}[2][Reflection]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{proposition}[2][Proposition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+ 
+\makeatletter
+\def\@seccntformat#1{%
+  \expandafter\ifx\csname c@#1\endcsname\c@section\else
+  \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+
+\setcounter{MaxMatrixCols}{20} 
+
+
+
+\usepackage{xcolor}
+\colorlet{kw}{blue}
+\definecolor{com}{rgb}{0,0.6,0.3}
+
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+% redefine keywords
+\algrenewcommand\algorithmicfunction{\textcolor{kw}{function}}
+\algrenewcommand\algorithmicwhile{\textcolor{kw}{while}}
+\algrenewcommand\algorithmicfor{\textcolor{kw}{for}}
+\algrenewcommand\algorithmicif{\textcolor{kw}{if}}
+\algrenewcommand\algorithmicelse{\textcolor{kw}{else}}
+\algrenewcommand\algorithmicend{\textcolor{kw}{end}}
+
+% new keywords
+\algnewcommand\Break{\textcolor{kw}{break}}%
+\algnewcommand\Continue{\textcolor{kw}{continue}}%
+
+% redefine loops
+\algdef{SE}[WHILE]{While}{EndWhile}[1]{\algorithmicwhile\ #1}{\algorithmicend}%
+\algdef{SE}[FOR]{For}{EndFor}[1]{\algorithmicfor\ #1}{\algorithmicend}%
+\algdef{SE}[IF]{IF}{EndFor}[1]{\algorithmicif\ #1 }{\algorithmicend}%
+
+% redefine comments
+\algrenewcommand{\algorithmiccomment}[1]{{\color{com}\%#1}}
+\usepackage{setspace}
+\doublespacing
+\begin{document}
+\title{\textbf{Predictive Species Population within the Competition between Two Different Herbivores}} 
+\author{Runlin He, Xinyi Meng, Yufu Chen, Kevin Xu\\
+Submitter: Kevin Xu}
+\date{}
+\maketitle
+\section{Abstract}
+Inter-specific competition is a ubiquitous phenomenon in nature. Generally, only the stronger species could survive and flourish, the weaker side would gradually become extinct. The purpose of this paper is to analyze Lotka-Volterra inter-specific competition model by fixed points and stability of each fixed point. Graph representation by numerical analysis is used to describe the development of population of two species. We found, in some case, two species can co-exist in long term. It is shown that two species co-existence can be useful in protecting environment and bio-diversity.
+\section{Introduction}
+In the history of human development, agriculture and animal husbandry always occupied an important position. In fact, livestock and agriculture are mutually reinforcing, for example, humans can use cattle to cultivate the land more efficiently. With cultivated land, human can further enhance agriculture, which provides more food, and the excess food can be used as feed for livestock to support the further development of animal husbandry. There are many examples of using different domestic animals to help human development, for example, chickens can provide humans with protein-rich eggs, and sheep can provide humans with wool to make warm clothes.
+
+Human beings obtain sufficient food resources and daily intake by controlling the number and reproduction rate of livestock. It is now generally recognized that the transition to agriculture involved a long-term co-evolutionary relationship that increased the population size and density of both humans and their domesticated plant and animal species over thousands of years.\cite{Jonathan2020} In agriculture, there is an essential branch – animal husbandry. Being a daily intake of protein and energy of humans, animal husbandry’s development supports everyone who bought food from Costco or Wholefoods. The article from Maryville University mentioned that “The latest USDA data on farming and farming income report the U.S. had a little over 2 million farms, encompassing 897 million acres, in 2020.”\cite{Maryville University} The great number of farms indicates how it would impact the economy of a country on a greater scale, thus our group is motivated to do research in this area.
+
+To find the research objects, we check several articles, and one of them states that “Research in the early 80s at the Dickenson center found sheep diets complemented the grazing of cattle extremely well,(01, 2018)” which provides a great research direction to our group. Sheep can provide elements for clothes and protein while cattle stand for the greatest consumption of protein, thus the most common species in animal husbandry would be sheep and cattle. To improve animal husbandry, we decided to focus on the combination of sheep and cattle. However, it is important to analyze the relationship between these two species to maximize their population when they live on the same farm. At this point, our group decided to mention the problem of species competition. 
+
+The concept of species competition, where members of different species compete with each other for resources such as food and shelter, is a fundamental part of evolutionary biology. This concept was first proposed by Charles Darwin in his theory of natural selection, which states that individuals within a population that possess traits that make them better suited to their environment are more likely to survive and reproduce, passing on those traits to their offspring. Over time, this can lead to the evolution of new species that are better adapted to their environment.
+
+To directly study the effects of competition between species on populations, We apply the Lotka-Volterra model, which is based on a set of differential equations that describe how the populations of the two species change over time. These equations take into account factors such as the growth rate of each species, the rate at which the predator consumes the prey, and the impact of the predator on the prey population.The model has been widely used to study insight into the complex interactions between species in ecosystems. 
+
+%Competition models are a type of mathematical model used to study interactions between different agents or competitors in a system. These models can be used to understand and predict the behavior of the agents in a competitive situation and can help inform decision-making in various fields such as economics, biology, and sociology. Overall, competition models can be a useful tool for studying and understanding complex systems with multiple competing agents.\\
+
+With such background provided, we propose a system of ordinary differential equations to model such inter-specific competition. Here taking the sheep and cattle as examples since they would compete for foe the restricted resources, grass, as the population change.
+
+For the models of species competition, our group decided to take advantage of the article from Jeffrey R. Chasnov, when he introduced two basic models of species competition:
+\begin{align}
+\frac{dN_1}{dt} &= r_1N_1(1-\frac{N_1}{K_1})\\
+\frac{dN_2}{dt} &= r_2N_2(1-\frac{N_2}{K_2})
+\end{align}
+In our research paper, we introduce two basic models of competition between two species, when $N_1$ stands for the change in cattle population and $N_2$ stands for the change of sheep. Besides, the equation states a basic growth rate as “r” to provide a usual growth rate of sheep and cattle. More specifically, if one sheep can reproduce 3 sheep in a year, then the growth rate of sheep would be 3. The cattle are considered in the same way. Since different species have different abilities in reproduction, the reproductive proportion is included in the equation, which is $r_1$ and $r_2$. To interpret this concept, our group did an amount of research, and most of them state that sheep can give birth to 3 newborns while cattle can only give birth to 1 newborn per year, thus $r_1$ will be 1 and $r_2$ will be 3.
+
+Moreover, to better develop the model, another object is considered to affect the result – the impact of competition for resources in limited living areas$:$
+\begin{align}
+\frac{dN_1}{dt} &= r_1N_1(1-\frac{N_1+\alpha_{12}N_2}{k_1})\\
+\frac{dN_2}{dt} &= r_2N_2(1-\frac{N_2+\alpha_{21}N_1}{k_2})
+\end{align}
+In the equation, we consider the way that two species impact each other through their different eating habits, which are $\alpha_{12}$ and $\alpha_{21}$. For instance, if one sheep eats 2 squares of grass while a cattle eats 4 squares of grass per day, the impact ratio constant of sheep to cattle would be 0.5. This circumstance is considered as $\alpha_1$ and $\alpha_2$. By transferring the cattle’s daily intake rate to the sheep's daily intake rate, we could pretend $\alpha_{12}$ is 0.2 and $\alpha_{21}$ is 6. Moreover, at the beginning of analysis, we decide to not mention the rate of growth of grass, thus the amount of grass is set to be a constant through the first model.
+
+As an expectation of this analysis, we could conclude that the sheep and cattle population would reach a stable point from the long term view. If the operation of their population was not controlled well by the farm, it could lead to decay in one of the species, which is lost to the owner of the farm. To determine which species’ population will decay till the number reaches  0, our group does research towards the daily intake of cattle and sheep online. After checking several research papers, our group concludes that cattle eat 6 times more grass than sheep. On the other hand, we notice that sheep will influence the amount of grass on a greater scale when sheep prefer to eat the root of grass. In this case, the grass that was eaten by sheep might not be able to grow again. For these two reasons, we decided to set k1 as 700 and k2 as 1500, when k1 stands for the grass which would be eaten by sheep and k2 stands for the grass that would be eaten by cattle. These two coefficients enable the model to include four fixed points that stand for the stable condition of two species, which could be a good population ratio control indicator when the owner tries to run their business better. Moreover, it ensures a good data visualization plot, when it makes the node a saddle-node. On the other hand, the result of grass change would help people to arrange the sheep and cattle in a better way – they would know how many sheep and cattle should be cultivated in a specific area with limited size.
+
+\section{Thesis Statement}
+This paper develops a mathematical model that describes the development of the population of different species in different parameter choices in competition relationships. By using phase plane and numerical analysis, the competition relationship between two species and the population of different species could be predicted.
+To achieve our goal, our group will cite and take advantage of two basic ODE models first, which stands for the change of different species. Then our group will make combinations with different fixed points and stability with prediction to the population development. Finally, we made graphs and analyzed the results to check if they meet our expectations and see how to improve the model.
+
+
+\section{Model Formulation for Different Capacity}
+\subsection{Compatible species with different environmental carrying capacity}
+Our analysis is based on the mathematical model from \cite{Chasnov02}. In the model we consider 8 variables: the growth rate of specie 1 and 2 ($r_1,r_2>0$); the population of species 1 and 2 ($N_1,N_2>0$); the influence of species 2 on species 1 ($\alpha_{12}>0$), the influence of species 1 on specie 2 ($\alpha_{21}>0$), influence including the amount of resource consumed and the ability to affect the resource; the environmental carrying capacity for species 1 and 2 ($k_1,k_2>0$):
+\begin{align*} 
+    \frac{dN_1}{dt} = r_1N_1(1-\frac{N_1+\alpha_{12}N_2}{k_1}) \\
+    \frac{dN_2}{dt} = r_2N_2(1-\frac{\alpha_{21}N_1+N_2}{k_2}) 
+\end{align*}
+\centerline{Equations from \cite{Chasnov02}}
+We assume that different species have different growth rates and ability to influence the other specie ($r_{1} \neq r_{2}, \alpha_{12}\neq\alpha_{21}$), but growth rate and their influence to the other specie are relatively constant within the same species\cite{Wikisheep}. So in the model, we set $r_1=1, r_2=3$ which is the number of annual births of cattle and sheep respectively and we set cattle consumed 22 kg grass and sheep consumed 3.6 kg grass\cite{Wikicattle}, while sheep would caused more damage to grassland due to its eating style\cite{Wikisheep}, so we set $\alpha_{12}=\frac{3.6}{22}, \alpha_{21}>\frac{22}{3.6}$ so we set $\alpha_{12}=0.2,\alpha_{21}=6$
+\begin{align}
+    \frac{dN_1}{dt} = N_1(1-\frac{N_1+0.2N_2}{k_1})\\
+    \frac{dN_2}{dt} = 3N_2(1-\frac{6N_1+N_2}{k_2})
+\end{align}
+
+\subsection{The population of cattle and sheep in long term}
+In nature and human farming, the development of species populations changes over time. We would like to analyze the trend of population changes and the population that eventually reaches.\\\\
+So we want to analyze the fixed point and stability of each fixed point and phase plane in order to decide the trend and final population.\\\\
+Analyzing \eqref{3} and \eqref{4} and make them equal 0 separately: 
+\begin{align*}
+    &\text{when} \frac{dN_1}{dt}=0 \\
+    &\text{we have }N_1=0\text{ or } 1-\frac{N_1+0.2N_2}{k_1}=0 ~(N_1=k_1-0.2N_2)\\
+    &\text{when }\frac{dN_2}{dt}=0\\
+    &\text{we get } N_2=0 \text{ or } 1-\frac{6N_1+N_2}{k_2}=0~(N_2=k_2-6N_1)
+\end{align*}
+so we get following 4 fixed points
+\begin{align}
+    &N_1=0,N_2=0 \label{5}\\
+    &N_1=0,N_2=k_2 \label{6}\\
+    &N_1=k_1,N_2=0 \label{7} \\
+    &N_1=\frac{k_1-0.2k_2}{1-0.2*6},N_2=\frac{k_2-6k_1}{1-0.2*6}\label{8}
+\end{align}
+These fixed points would be potential population of cattle and sheep in long term. 
+
+\subsubsection{Stability of fixed point to cattle and sheep population}
+Depending on the type of grassland, the environmental carrying capacity for cattle and sheep varies, so we can change the capacity of two species ($k_1, k_2$) and then determine the stability of each fixed point in order to determine the trend of population of two species. 
+$$J =\begin{pmatrix}
+    1-\frac{2N_1}{k_1}-\frac{0.2N_2}{k_1}&-\frac{0.2N_1}{k_1}\\
+    -\frac{18N_2}{k_2}&3-\frac{18N_1}{k_2}-\frac{6N_2}{k_2}
+\end{pmatrix}$$
+\romannumeral1:(0,0) 
+The eigenvalue of J: $\lambda_1=1$, $\lambda_2=3$ since 
+$\lambda_1,\lambda_2>0$ so (0,0) is an unstable node, independent of $k_1,k_2$ which shows sheep and cattle would grow when their population is closed to 0. in the grassland and total population cannot be 0; eigenvector: $v_1= \begin{pmatrix}
+    1\\0
+\end{pmatrix}$, $v_2=\begin{pmatrix}
+    0\\1
+\end{pmatrix}$\\\\
+\romannumeral2:(0,$k_2$) The eigenvalue of J: $\lambda_1=1-\frac{0.2k_2}{k_1}$, $\lambda_2=-3$, $\lambda_2<0$ so when $\lambda_1<0$, $k_1<0.2k_2$ the fixed point is stable node, when $k_1 > 0.2k_2$, the fixed point is saddle node (unstable); eigenvector: $v_1=\begin{pmatrix}
+    -4+\frac{k_2}{5k_1}\\
+    18
+\end{pmatrix}$, $v_2=\begin{pmatrix}
+    0\\1
+\end{pmatrix}$\\\\
+\romannumeral3: ($k_1$,0) The eigenvalue of J: $\lambda_1 = -1$, $\lambda_2 = 3-\frac{18k_1}{k_2}$, $\lambda_1<0$, so when $\lambda_2 < 0$, $k_2 < 6k_1$ the fixed point is stable, when $k_2 > 6k_1$, the fixed point is saddle node (unstable), eigenvector: $v_1=\begin{pmatrix}
+    1\\0
+\end{pmatrix}$, $v_2=\begin{pmatrix}
+    6\\
+    -4+\frac{0.6k_1}{k_2}
+\end{pmatrix}$\\\\
+\romannumeral4: ($\frac{k_1-0.2k_2}{-0.2},\frac{k_2-6k_1}{-0.2}$), this fixed point would be hard to determine the stability by calculation, so we would analyze the practical significance, $N_1,N_2>0$, so we need $k_2>5k_1$ and $k_2<6k_1$ in this case: $\alpha_{12}=0.2,\alpha_{21}=6$. we have $\lambda_1*\lambda_2 < 0$ so we can determine it is saddle node (unstable). 
+
+\subsubsection{Final population in different case}
+In the analysis to different fixed point, in this case ($\alpha_{12}=0.2,\alpha_{21}=6$) we found only (0,$k_2$) and ($k_1$,0) could change the stability, so we would set different $k_1,k_2$ to observe the population trend\\\\
+We will use phase plane and numerical analysis to show the development of population of two species\\
+Case \romannumeral1:
+(0,$k_2$) stable, ($k_1$,0) unstable
+$k_1<0.2k_2$ and $k_2>6k_1$, so we set $k_1 = 100$, $k_2=700$, so we predict population of two species would get to (0,$k_2$) in long term. \\\\
+Case \romannumeral2:
+(0,$k_2$) stable, ($k_1$,0) stable
+$k_1<0.2k_2$ and $k_2<6k_1$, so we set $k_1 = 110$, $k_2=600$ population of two species would go to either ($k_1$,0) or (0,$k_2$) and which point to go to depends on initial condition choice.\\\\
+Case \romannumeral3:
+(0,$k_2$) unstable, ($k_1$,0) stable
+$k_1>0.2k_2$ and $k_2<6k_1$, so we set $k_1 = 700$, $k_2=600$, population of two species would go to ($k_1$,0).\\\\
+Case \romannumeral4:
+(0,$k_2$) unstable, ($k_1$,0)unstable
+$k_1>0.2k_2$ and $k_2>6k_1$ which doesn't have positive solution, so this case has no pragmatical meaning; in order to get a solution with pragmatical meaning, which means $\frac{k_1-\alpha_{12}k_2}{1-\alpha_{12}\alpha_{21}}>0$ and $\frac{k_2-6\alpha_{21}k_1}{1-\alpha_{12}\alpha_{21}}>0$, since $k_1-\alpha_{12}k_2>0$ and $k_2-\alpha_{21}k_1>0$, we need $1-\alpha_{12}\alpha_{21}>0$, so we change the $\alpha_{12}=0.2,\alpha_{21}=4$ with $k_1=300,k_2=1400$, in this case, we found that $\romannumeral4$ fixed point: $\lambda_1+\lambda_2<0$ and $\lambda_1*\lambda_2>0$ so it is a stable node; since $(k_1,0)~ and~ (0,k_2)$ are unstable, so we predict no species would extinct.
+
+\section{Results}
+\subsection{Results in different cases}
+%We use the numerical method and phase plane to show the change of the population of cattle and sheep and the trend of trajectory over time revolved around the logistic equation we create.\\
+Based on our model, we find the 4 fixed points, which are $(0,0)$, $(k_1,0)$, $(0, k_2)$, and $(\frac{k_1-\alpha_{12}\cdot k_2}{1-\alpha_{12}\cdot\alpha_{21}}, \frac{k_2-k_1\cdot\alpha_{21}}{1-\alpha_{12}\cdot\alpha_{21}})$, and use the MATLAB to draw the numerical plane and phase plane for every case.\\\\
+In the previous process, we find that if $k_2<\alpha_{21}k_1$, $(k_1,0)$ is a stable node, if $k_2>\alpha_{21}k_1$, $(k_1,0)$ is a saddle node; if $k_1<\alpha_{12}k_2$, $(0, k_2)$ is a stable node, if $k_1>\alpha_{12}k_2$, $(0, k_2)$ is a saddle node. By substituting $k_1$ and $k_2$ with different values, we get different fixed points every case.\\\\
+case i: $(0,600)$ is a saddle, $(700,0)$ is stable. At this time, $(\frac{k_1-\alpha_{12}\cdot k_2}{1-\alpha_{12}\cdot\alpha_{21}}, \frac{k_2-k_1\cdot\alpha_{21}}{1-\alpha_{12}\cdot\alpha_{21}}) = (-2900, 18000)$, which is not in the first quadrant, so we would not consider about it.\\
+case ii: $(0,600)$ is stable, $(110,0)$ is stable. At this time, $(\frac{k_1-\alpha_{12}\cdot k_2}{1-\alpha_{12}\cdot\alpha_{21}}, \frac{k_2-k_1\cdot\alpha_{21}}{1-\alpha_{12}\cdot\alpha_{21}}) = (50,300)$. The eigenvalues of that fixed point is 0.0674 and -2.022, so (50,300) is a saddle node. Also, the final population depends on initial condition.\\
+case iii: $(0,700)$ is stable, $(100,0)$ is a saddle. At this time, $(\frac{k_1-\alpha_{12}\cdot k_2}{1-\alpha_{12}\cdot\alpha_{21}}, \frac{k_2-k_1\cdot\alpha_{21}}{1-\alpha_{12}\cdot\alpha_{21}}) = (200, -500)$, which is not in the first quadrant, so we would not consider about it.\\
+case iv: $(0,1400)$ is a saddle, $(300,0)$ is a saddle.  At this time, $(\frac{k_1-\alpha_{12}\cdot k_2}{1-\alpha_{12}\cdot\alpha_{21}}, \frac{k_2-k_1\cdot\alpha_{21}}{1-\alpha_{12}\cdot\alpha_{21}}) = (100,1000)$. The eigenvalues of that fixed point is -0.0591 and -2.4171, so (100,1000) is a stable node.
+\subsection{Numerical method and phase plane}
+%\begin{center}
+%\includegraphics[width=6cm]{graph(leftcombine1).png}
+%\includegraphics[width=6cm]{graph(leftcombine2).png} 
+%\end{center}
+\begin{figure*}[h!]
+  \centering
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[width=\linewidth]{graph(leftcombine1).png}
+    \caption{graph1}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[width=\linewidth]{graph(leftcombine2).png}
+    \caption{graph2}
+  \end{subfigure}
+  \caption{Adding notation}
+\end{figure*}
+Comparing case i and case iii, the difference is that we use a set of $k_1$ and $k_2$ in the first graph, and we apply another set of $k_1$ and $k_2$ in the second graph. The reason is that by changing the pair of $k_1$ and $k_2$ and keeping other conditions the same, we found that the blue line goes up and finally keeps it steady at a certain population, and the orange line goes up for a while but eventually declines to 0. It shows that cattle will continue to flourish and finally keep the population without any increase as it reaches a certain amount, but sheep will be extinct as time goes on. On the contrary, the orange line goes up and stays at a certain amount of population but the blue line having a little rising goes down to 0. Instead, the fate of cattle is the same as the sheep, which eventually will be extinct in the previous condition. Sheep will continue to flourish until the population grows to a certain amount.
+%\begin{center}
+%\includegraphics[width=8cm]{graph1(2).png}
+%\includegraphics[width=8cm]{graph2(2).png}
+%\end{center}
+\begin{figure*}[h!]
+  \centering
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[width=\linewidth]{graph1(2).png}
+    \caption{graph3}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[width=\linewidth]{graph2(2).png}
+    \caption{graph4}
+  \end{subfigure}
+  \caption{Adding notation}
+\end{figure*}
+For the first graph with $k_1=700$ and $k_2=600$, we can see the stability of those two fixed points based on the direction of the arrows, which could prove our calculations that (0,600) is a saddle and (700,0) is stable. Also, we find that the trajectory rises at the beginning of the graph, but it begins to drop down, and finally converges to the point (700,0), which means that sheep will be extinct, and cattle will flourish in a long term. When we change the pair of k1 and k2, we get the second phase plane. The fixed points would be (100,0) and (0,700), we can also clearly see the stability of these two fixed points that one is a saddle node and the other is a stable node. The trajectory rises at first but finally declines to 0 in x-axes, but it always keeps rising in y-axes and converges to point (0,700). It meets our expectations from the computation. And in this situation, cattle will finally be extinct, and sheep will flourish to a certain population. \\\\
+To analyze case ii, we infer that the graphs will exhibit two different trends, so we come up with two distinct sets of initials based on the eigenvector of the negative eigenvalue at (50,300). We expect those two graphs will have two different trends, which either converge to N2 or N1. Through the study of the model and further thinking, we stipulate that the values of the set of $k_1$ and $k_2$ are the same, but the initial population of the two species is different.
+%\begin{center}
+%\includegraphics[width=6cm]{graph(rightcombine1).png}
+%\includegraphics[width=6cm]{graph(rightcombine2).png}
+%\end{center}
+\begin{figure*}[h!]
+  \centering
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[width=\linewidth]{graph(rightcombine1).png}
+    \caption{graph5}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[width=\linewidth]{graph(rightcombine2).png}
+    \caption{graph6}
+  \end{subfigure}
+  \caption{Adding notation}
+\end{figure*}
+Considering the initial population N1(0) = 9, N2(0) = 55 for the first one, N1(0) =55, N2(0) = 9 for the second one, and then we get two graphs. The reason why we choose these values is that we have to make sure that the initial point should be over on one side and under on the other side of the eigenvector corresponding to the negative eigenvalue of the fourth fixed point. We can find that line representing the population of the sheep goes up and finally holds steady, and the line representing the population of cattle goes up a bit but eventually goes down to 0. It shows that the cattle will be extinct, and sheep will flourish to a stable population as time goes by in the first graph. The situation is just the opposite for the second graph. Cattle will flourish to a stable population and sheep will finally be extinct over time since the position of the line representing the population of the cattle is higher than the line representing the population of the sheep.
+\begin{figure*}[h!]
+  \centering
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[width=\linewidth]{graph3(2).png}
+    \caption{graph7}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[width=\linewidth]{graph6(2).png}
+    \caption{graph8}
+  \end{subfigure}
+  \caption{Adding notation}
+\end{figure*}\\
+To deeply understand the model, we use the phase plane to show the stability of the fixed points and the dynamic trajectory with direction field. Based on the direction of the arrows, it's easy for us to determine that (0, 600) is a stable point, (110,0) is also a stable point, and (50,300) is a saddle node. From the first graph, the trajectory grows to a certain point but falls in x-axes in the finish. Instead of increasing and decreasing in x-axes, it keeps going up in y-axes and finally converges to its stable fixed point (0,600). The second graph is exactly the opposite of the first one, the trajectory increases and then decreases in x-axes, and it keeps rising in y-axes and finally converges to the stable fixed point (110,0). The graphs express that even the difference between initial population of cattle and sheep could influence their survival in the long term since we only change the initial population.\\
+\begin{wrapfigure}{l}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.4\textwidth]{graph(bottommiddle).png}
+    \caption{graph8}
+\end{wrapfigure}\\
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.4\textwidth]{graph5(2).png}
+    \caption{graph9}
+\end{wrapfigure}
+We also considered the case of symbiosis between two species, so we change the $\alpha_{12}$ to be 4 so that it makes the multiplication of $\alpha_{12}$ and $\alpha_{21}$ less than 1. By using the numerical method to show the functions visually, We find that as time goes on, the lines of cattle and sheep will reach a stable non-zero level without any increase and decrease, which means that cattle and sheep live in symbiosis.\\
+
+From the phase plane, we can find the two saddle fixed points, which are (0,1400) and (300,0). The trajectory rises both in a-axes and y-axes and stops at a certain point without converging to any points, which indicates that cattle and sheep could both be survived and reach a balance. It matches the trend we got from the previous graph using the numerical method.
+\subsection{major results}
+Based on what we get above, we find that when the $\alpha_{12}\alpha_{21}$ is greater than 1, the change of pair of $k_1$ and $k_2$ would change the final population of two species, and consequently, either one of two species could survive and flourish. Also, the change of the initial population would affect the final population of two species – either one of the species would be extinct. Moreover, When $\alpha_{12}\cdot\alpha_{21}$ is less than 1, cattle and sheep will both survive and live in symbiosis as $k_2>k_1\alpha_{21}$. As a result, the competition between two species is real, and many factors determine the ultimate winner. The results match our assumptions, expectations, and calculations.\\
+
+\section*{Discussion}
+\begin{text}
+From the $N_1$ v.s. $N_2$ graph we are confident that such a parameter range makes physical sense. Since in our assumption we denote that species two (sheep) has larger capacities than species one (cattle) within the same environment. The graph successfully shows that limited resources could support lower consumer more than the larger consumer. Besides, this graph also satisfied the logistic growth, with specific capacities(the limited resources), since both species experience logistical growth in the short term and eventually settle at the fixed point in the long run. \\\\
+When it comes to the situation that one of the species will eventually extinct, such $N_1$ v.s. $N_2$ graph also satisfied the physical interpretation of our model since one specie experience logistic decay and the other species experiences logistic growth till it reaches the maximum environmental capabilities.\\\\
+While analyzing the phase plane, we found something interesting. Other than the first phase plane, where all the arrows specify a unique direction for the trajectory(the trajectory first move in the direction where $N_2$ population increase, then as time goes on, such trajectory moves in the direction where the population of $N_2$ decrease and the population of $N_1$ increase). All other phase plane has a certain region of "trapping area", which with specific initial values, the trajectory is bounded within such "trapping region". Such a trapping area is formed because of the nullclines of our system of ODEs and related to the eigenvectors of the fixed points. In our system of ODEs, there are four nullclines, $N_1 = 0$, $N_2 = 0$(those two are the axis), $N_2 = -\frac{N_1}{\alpha_{12}}+\frac{k_1}{\alpha_{12}}$, and $N_2 = -\alpha_{21}N_1+k_2$. Taking graph two(\textbf{$k_1 = 100$, $k_2 = 700$}) as an example. From the graph, we can easily see that there is a straight line on the upper half of the phase plane, whose slope is approximately $-\alpha_{21}$(in this case, the slope is $-5.7941$).After the trajectory following such boundary line to the $N_2$ axis, the stable fixed point $(0, k_2)$ attracts the trajectory to the fixed point $(0, k_2)$. In the other words, as long as the trajectory gets into such a bounded region, the trajectory can not exist this region and eventually move to one of the fixed points following one of the four boundary lines.\\\\
+While analyzing the $N_1$ v.s. $N_2$ graph, we go through the different cases discussed in the previous section. When it comes to the situation that one of the two species will eventually extinct, we figure out the relationship between $k_1$ and $k_2$ according to the initial choice of $\alpha_{12}$ and $\alpha_{21}$($\alpha_{12} = 0.2$, $\alpha_{21}=6$), which gives us the result of what specie will extinct and what's the population of exist specie. When we wish to analyze the case that none of the species will extinct, the parameter values of $\alpha_{12}$ and $\alpha_{21}$ do not satisfy the physical meaning of the population combination of two species(the species population is both be negative). In order to see the graph of both species exist, we change the parameter range of $\alpha_{12}\alpha_{21}$ from greater than one to smaller than one, making the only stable fixed point to be the co-exist fixed point(the fourth fixed point). By discussing this situation, we conclude the desired parameter range which is not included in the cited paper. \\\\
+However, certain errors need to take into consideration. With investigation, our group found that there is no specific definition of how to compute "the interactive influence between two species"(the definition for parameter $\alpha$). Within this paper, we define such parameters as the "influence of one species on the other", which include the consumption interactive between species and the interaction between species and the environment. However, this leads to the possible parameter value error since the rounding steps and the physical definition are not precise. In order to get a more precise result, we need to further research on how to calculate the consumption interaction between two species. \\\\
+To make the model more precise, we can generalize such modeling into more than two species($n$ species) to create a $n$ dimensional graph for the development of the population and the survival situations. Since the ordinary differential equation of each species is similar, in order to generalize into $n$ species, we need to introduce the interactive influence between each species(for example, for $n$ species situation, introduce $\alpha_{ab}$ to represent the influence of species $b$ to species $a$, where $a$ and $b$ is in the range $[0,n]$, with $a\ne b$) and the carrying capacity of the $n$th species as $k_n$. \\
+Following is the proposed system of ODEs for competition between $n$ species which are feed with the same resources:
+\end{text}
+\begin{align*}
+\frac{dN_k}{dt} &= r_kN_k(1-\frac{N_k + \Sigma_{\substack{j=1 \\ j \ne k}}\alpha_{kj}N_j}{k_k})
+\end{align*}
+\begin{text}
+where $k$ represents the $k$th equation of ODEs, the equation for the $k$th species, has range $k \in [1,n]$
+\end{text}
+
+
+\section*{Conclusion}
+\begin{text}
+From the previous analysis, we propose one system of ODEs and figured out that the population behaviors between two competitive species within the ideal environment(all environmental influences other than resources are ignored) are related to the resources. By having the values of parameters ($r_1$, $\alpha_{12}$, $r_2$, and $\alpha_{21}$) and different initial values, we analyze the phase planes of such system of ordinary differential equations and draw the corresponding phase plane and $N_1$ v.s. $N_2$ graph to analyze the different cases and show the long-time behavior. The results can be considered as two main cases: if we have the parameters $\alpha_{12}\cdot\alpha_{21}>1$(determined by the nature of biological species), one of two species will eventually become extinct in the long run, which species will extinct is determined by the relations between $k_1$ and $k_2$ and the initial conditions; if we have the parameters $\alpha_{12}\cdot\alpha_{21}<1$(determined by the nature of biological species) no species will extinct in the long run, showing that both of them will approach to the equilibrium.\\\\
+With the foundation of such observation, since the ordinary differential equation is similar for the growth rate of each species within the competition, we wish to further develop a more complicated and comprehensive model to predict the population growth of possible $n$ species. In the real natural environment, there may be more than two species competing for a specific limited resource. If we add more species into this system (for example horses, donkeys, etc.), the later modeling including $n$ species would be a better simulation for the population development analysis. \\\\
+With the foundation of the conclusion that we get from such a system of ODEs, possible combinations with biology may play an important role in the research of species migration and development that mainly focuses on population change. Such a mathematical model to analyze the population change within certain environments provides a control variable that can be manipulated for the discussion on macro species extinction.
+\end{text}
+
+\begin{thebibliography}{9}
+\begin{singlespace}
+\bibitem{Chasnov02}
+Jeffrey R. Chasnov, “A Model of Species Competition”, LibreTexts (2022).\\
+\bibitem{Ferretti15}
+F. Ferretti, et al., “Competition between wild herbivores: reintroduced red deer and Apennine chamois”, Behavioral Ecology (2015).\\
+\bibitem{Yousef22}
+Ali Yousef, et al., “The hunting cooperation of a predator under two prey’s competition and fear-effect in the prey-predator fractional-order model”, AIMS (2022).\\
+\bibitem{Sardar16}
+Anadi K. Sardar et al., “Mathmatical Analysis of the Two Soecies Lotka-Volterra Predator-Prey Inter-Specific Game Theroetic Competition Model”, Advanced Modeling and Optimization (2016).\\
+\bibitem{Maryville University}
+Maryville University. "Why is agriculture important? benefits and its role." (2022, July 12). Retrieved November 23, 2022\\
+\bibitem{Burt18}
+Burt Rutherford, "As the cattle cycle continues to churn, beef producers are looking to diversify. Sheep are a good option.", Beefmagazine (2018)\\
+\bibitem{Jonathan2020}
+Jonathan C. K. Wells, et al, "Life History Transitions at the Origins of Agriculture: A Model for Understanding How Niche Construction Impacts Human Growth, Demography and Health.", Front Endocrinol (Lausanne) (2020) \\
+\bibitem{Wikisheep}
+Harkaway, "Sheeps graving and effect on pasture" https://en.wikipedia.org/wiki/Sheep (2022)\\
+\bibitem{Wikicattle}
+Llammakey, "Cattle's digestive system and weight" https://en.wikipedia.org/wiki/Cattle (2022)
+\end{singlespace}
+\end{thebibliography}
+\end{document}
